@@ -1,0 +1,31 @@
+body,
+html,
+#root,
+.app,
+.container {
+    background-color: #ffffff;
+}
+
+.header {
+    width: 100%;
+    background-color: darkgray;
+}
+
+li {
+    list-style: none;
+}
+
+.header-components {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 1000px;
+    margin: 0 auto;
+    justify-content: space-around;
+}
+
+#logo {
+    height: 40px;
+    width: auto;
+    color: #000000;
+}
