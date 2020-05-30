@@ -34,6 +34,7 @@ const SignUpForm = ({ users, addUser, updateUserStore, userStore }) => {
     
     /**
      * Helper function that handles sign up functionality
+     * [FUTURE] Add a proper error message
      */
     const doSignUp = () => {
         if (!signUpstate.username || !signUpstate.password || !signUpstate.password2) {

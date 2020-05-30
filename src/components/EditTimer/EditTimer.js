@@ -1,9 +1,9 @@
 import React        from 'react';
 import PropTypes    from 'prop-types';
 
-import TimeInput    from '../TimeInput/TimeInput';
+import TimeOutput    from '../TimeOutput/TimeOutput';
 
-const EditTimer = ({ setTimer, timer, handleInputChange, onSubmit, getTimeFromNum }) => {
+const EditTimer = ({ id, setTimer, timer, handleInputChange, onSubmit, getTimeFromNum, showColumns }) => {
     /**
      * Helper function to update timer if user clicks on time
      * [PLANNED] control coursor position with index
@@ -15,11 +15,13 @@ const EditTimer = ({ setTimer, timer, handleInputChange, onSubmit, getTimeFromNu
                 ...timer,
                 defaultTime: getTimeFromNum(timer.time),
                 isPaused: true,
+                isStarted: false,
             })
         if (timer.time === 0) 
             setTimer({
                 ...timer,
                 isPaused: true,
+                isStarted: false,
                 time: null,
             })
     }
@@ -30,25 +32,35 @@ const EditTimer = ({ setTimer, timer, handleInputChange, onSubmit, getTimeFromNu
                 event.preventDefault();
                 if (timer.defaultTime === '000000')
                     return;
-                onSubmit();
+                onSubmit(timer);
             }}
         >
-            <TimeInput className='set-timer' onClick={ onClick } time={ 
+            <TimeOutput className='set-timer' htmlFor={`${ id }-hiden-input`} onClick={ onClick } showColumns={ showColumns } time={ 
                 timer.time === null
                     ? timer.defaultTime 
                     : getTimeFromNum(timer.time)
             } />
-            <input className='timer-hiden-input' type='text' name='time' value={ timer.defaultTime } onClick={() => onClick(0)} set onChange={(e) => handleInputChange(e)}/>
+            <input 
+                id={`${ id }-hiden-input`}
+                className='timer-hiden-input'  
+                type='text' 
+                name='time' 
+                value={ timer.defaultTime } 
+                onClick={() => onClick(0)} 
+                onChange={e => handleInputChange(e, timer)}
+            />
         </form>
     );
 }
 
 EditTimer.propTypes = {
+    id: PropTypes.string.isRequired,
     setTimer: PropTypes.func.isRequired, 
     timer: PropTypes.object.isRequired, 
     handleInputChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired, 
     getTimeFromNum: PropTypes.func.isRequired,
+    showColumns: PropTypes.bool.isRequired,
 }
 
 export default EditTimer;

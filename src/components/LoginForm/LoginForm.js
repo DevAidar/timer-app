@@ -32,6 +32,7 @@ const LoginForm = ({ users, updateUserStore, userStore }) => {
 
     /**
      * Helper function that handles login functionality
+     * [FUTURE] Add a proper error message
      */
     const doLogin = () => {
         if (!loginState.username || !loginState.password) {

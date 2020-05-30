@@ -1,112 +1,75 @@
-import React, { useState}   from 'react';
-import PropTypes            from 'prop-types';
+import React        from 'react';
+import PropTypes    from 'prop-types';
 
-import EditTimer            from '../EditTimer/EditTimer';
-import ActionButton         from '../ActionButton/ActionButton';
+import EditTimer    from '../EditTimer/EditTimer';
+import ActionButton from '../ActionButton/ActionButton';
+import LikeButton   from '../LikeButton/LikeButton';
 
-const SetTimer = ({ addTimer, editTimer, getTimeFromNum }) => {
-    const initialTimer = {
-        defaultTime: '000500', // change it back to '000000'
-        time: null,
-        isPaused: true,
-        id: null,
-        users: [],
-    };
+const CreateTimer = ({ timer, onAction, handleInputChange, getIsLiked, getTimeFromNum }) => (
+    <div className='create-timer'>
+        <EditTimer id={`create-timer-0`} setTimer={ onAction.onChange } timer={ timer } handleInputChange={ handleInputChange } onSubmit={ onAction.onStart } getTimeFromNum={ getTimeFromNum } showColumns={ false } />
+        <ActionButton 
+            name={
+                timer.isStarted
+                    ? timer.time === 0
+                        ? 'done'
+                        : timer.isPaused
+                            ? 'resume'
+                            : 'pause'
+                    : 'start'
+            }
+            value={
+                timer.isStarted
+                    ? timer.time === 0
+                        ? 'DONE'
+                        : timer.isPaused
+                            ? 'RESUME'
+                            : 'PAUSE'
+                    : 'START'
+            }
+            type='button'
+            timer={ timer }
+            onClick={
+                timer.isStarted
+                    ? timer.time === 0
+                        ? onAction.onDone
+                        : timer.isPaused
+                            ? onAction.onResume
+                            : onAction.onPause
+                    : onAction.onStart
+            }
+        />
+        <ActionButton
+            name='new'
+            value='NEW'
+            type='button'
+            disabled={ timer.defaultTime === '000000' }
+            timer={ timer }
+            onClick={ onAction.onNew }
+        />
+        <LikeButton 
+            id={ 0 }
+            timer={ timer }
+            onChange={ onAction.onLike }
+            isLiked={ timer.isSaved.length > 0 && getIsLiked(timer) }
+        />
+        <ActionButton 
+            name='reset'
+            value='RESET'
+            type='button'
+            disabled={ timer.time !== 0 && (!timer.isStarted || !timer.isPaused) }
+            timer={ timer }
+            onClick={ onAction.onReset }
+        />
+    </div>
+);
 
-    /**
-     * Helper function to convert timer state into state
-     */
-    const stateConverter = () => (
-        timer.time === null
-            ? 'start'
-            : timer.time === 0
-                ? 'done'
-                : timer.isPaused
-                    ? 'resume'
-                    : 'pause'
-    )
-
-
-    const [timer, setTimer] = useState(initialTimer);
-
-    /**
-     * Helper function to update timer at root and at the parent
-     * @param { object } timer 
-     */
-    const updateTimer = (timer) => {
-        setTimer(editTimer(timer));
-    } 
-
-    /**
-     * Handles input change and makes sure that input follows the 
-     * @param {*} event 
-     */
-    const handleInputChange = event => {
-        if (timer.isPaused) {
-            setTimer({
-                ...timer,
-                defaultTime: '000000'.concat(parseInt(event.target.value)).slice(-6),
-                time: null,
-            });
-        }
-    }
-
-    /**
-     * Handles start button press
-     */
-    const onStart = () => {
-        if (timer.id === null)
-            setTimer(addTimer({...timer, isPaused: false}));
-        else 
-            updateTimer({...timer, isPaused: false});
-    }
-
-    /**
-     * Handles pause button press
-     */
-    const onPause = () => {
-        updateTimer({...timer, isPaused: true});
-    }
-
-    /**
-     * Handles resume button press
-     */
-    const onResume = () => {
-        updateTimer({...timer, isPaused: false});
-    }
-
-    /**
-     * Handles done button press
-     */
-    const onDone = () => {
-        setTimer(editTimer({...initialTimer, id: timer.id, users: timer.users}));
-    }
-
-
-    return (
-        <div className='create-timer'>
-            <EditTimer setTimer={ updateTimer } timer={ timer } handleInputChange={ handleInputChange } onSubmit={ onStart } getTimeFromNum={ getTimeFromNum } />
-            <ActionButton 
-                name={stateConverter()}
-                value={stateConverter().toUpperCase()}
-                onClick={
-                    timer.time === null
-                        ? onStart
-                        : timer.time === 0
-                            ? onDone
-                            : timer.isPaused
-                                ? onResume
-                                : onPause 
-                }
-            />
-        </div>
-    );
-}
-
-SetTimer.propTypes = {
-    addTimer: PropTypes.func.isRequired,
-    editTimer: PropTypes.func.isRequired,
+CreateTimer.propTypes = {
+    timer: PropTypes.object.isRequired,
+    onAction: PropTypes.object.isRequired,
+    handleInputChange: PropTypes.func.isRequired,
+    getIsLiked: PropTypes.func.isRequired,
     getTimeFromNum: PropTypes.func.isRequired,
 }
 
-export default SetTimer;
+export default CreateTimer;
