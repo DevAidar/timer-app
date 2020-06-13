@@ -1,17 +1,17 @@
 import React        from 'react';
 import PropTypes    from 'prop-types';
 
-const ActionButton = ({ name, type, value, disabled=false, timer, onClick }) => (
-    <div className='inputField'>
-        <button
-            className={`action-btn ${name.toLowerCase()}-button`}
-            name={ name }
-            type={ type }
-            value={ value }
-            disabled={ disabled }
-            onClick={() => onClick(timer)}
-        >{value}</button>
-    </div>
+import './ActionButton.css';
+
+const ActionButton = ({ name, type, value, disabled, timer, onClick }) => (
+    <button
+        className={`action-btn ${name.toLowerCase()}-button `}
+        name={ name }
+        type={ type }
+        value={ value }
+        disabled={ disabled }
+        onClick={() => onClick(timer)}
+    ><div className='text'>{value}</div></button>
 );
 
 ActionButton.propTypes = {

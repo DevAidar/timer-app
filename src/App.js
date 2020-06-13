@@ -1,19 +1,20 @@
-import React, { 
-    useState, 
-    useEffect, 
-    useRef 
-}                   from 'react';
+import React, {
+    useCallback,
+    useState,
+    useEffect,
+    useRef
+} from 'react';
 
-import Header       from './Header/Header';
-import LoginForm    from './components/LoginForm/LoginForm';
-import SignUpForm   from './components/SignUpForm/SignUpForm';
-import ListTimers   from './components/ListTimers/ListTimers';
-import CreateTimer  from './components/CreateTimer/CreateTimer';
+import Header from './Header/Header';
+import LoginForm from './components/LoginForm/LoginForm';
+import SignUpForm from './components/SignUpForm/SignUpForm';
+import ListTimers from './components/ListTimers/ListTimers';
+import CreateTimer from './components/CreateTimer/CreateTimer';
 
 import {
     getTime,
     getTimeFromNum,
-}                   from './timer/timer';
+} from './timer/timer';
 
 import './App.css';
 
@@ -35,29 +36,92 @@ const App = () => {
         id: null,
         users: [],
     };
-    
+
     /**
     * Handles input change and makes sure that input follows the formating style
     * @param {*} event 
     * @param { object } timer 
     */
-   const handleTimeInputChange = (event, timer) => {
-        if (timer.isPaused) {
-            if (timer.id === null)
-                setTimerStore({
-                    ...timer,
-                    defaultTime: '000000'.concat(isNaN(parseInt(event.target.value)) ? '' : parseInt(event.target.value)).slice(-6),
-                    time: null,
-                    isStarted: false,
-                });
-            else 
-                editTimer({
-                    ...timer,
-                    defaultTime: '000000'.concat(isNaN(parseInt(event.target.value)) ? '' : parseInt(event.target.value)).slice(-6),
-                    time: null,
-                    isStarted: false,
-                });
+    const handleTimeInputChange = (event, index, timer) => {
+        if (timer.isPaused && index !== null) {
+            if (event === 'del') {
+                if (timer.id === null) {
+                    setTimerStore({
+                        ...timer,
+                        defaultTime: index === -1 ? '000000' : '000000'.concat(
+                            timer.defaultTime.substr(0, index),
+                            timer.defaultTime.substr(index + 1),
+                        ).slice(-6),
+                        time: null,
+                        isStarted: false,
+                    });
+                } else {
+                    editTimer({
+                        ...timer,
+                        defaultTime: index === -1 ? '000000' : '000000'.concat(
+                            timer.defaultTime.substr(0, index),
+                            timer.defaultTime.substr(index + 1),
+                        ).slice(-6),
+                        time: null,
+                        isStarted: false,
+                    });
+                }
+            } else if (event === 'up' || event === 'down') {
+                if (timer.id === null) {
+                    setTimerStore({
+                        ...timer,
+                        defaultTime: '000000'.concat(
+                            index === -1 ? '' : timer.defaultTime.substr(0, index),
+                            event === 'up' 
+                                ? Math.min(9, index === -1 ? 1 : parseInt(timer.defaultTime[index]) + 1)
+                                : Math.max(0, index === -1 ? 0 : parseInt(timer.defaultTime[index]) - 1),
+                            index === -1 ? '' : timer.defaultTime.substr(index + 1),
+                        ).slice(-6),
+                        time: null,
+                        isStarted: false,
+                    });
+                } else {
+                    editTimer({
+                        ...timer,
+                        defaultTime: '000000'.concat(
+                            index === -1 ? '' : timer.defaultTime.substr(0, index),
+                            event === 'up' 
+                                ? Math.min(9, index === -1 ? 1 : parseInt(timer.defaultTime[index]) + 1)
+                                : Math.max(0, index === -1 ? 0 : parseInt(timer.defaultTime[index]) - 1),
+                            index === -1 ? '' : timer.defaultTime.substr(index + 1),
+                        ).slice(-6),
+                        time: null,
+                        isStarted: false,
+                    });
+                }
+            } else {
+                if (timer.id === null) {
+                    setTimerStore({
+                        ...timer,
+                        defaultTime: '000000'.concat(
+                            index === -1 ? '' : timer.defaultTime.substr(0, index + 1),
+                            isNaN(parseInt(event.target.value)) ? '' : parseInt(event.target.value),
+                            index === -1 ? '' : timer.defaultTime.substr(index + 1),
+                        ).slice(-6),
+                        time: null,
+                        isStarted: false,
+                    });
+                } else {
+                    editTimer({
+                        ...timer,
+                        defaultTime: '000000'.concat(
+                            index === -1 ? '' : timer.defaultTime.substr(0, index + 1),
+                            isNaN(parseInt(event.target.value)) ? '' : parseInt(event.target.value),
+                            index === -1 ? '' : timer.defaultTime.substr(index + 1),
+                        ).slice(-6),
+                        time: null,
+                        isStarted: false,
+                    });
+                }
+            }
         }
+        console.log(`index = ${index === -1 ? timer.defaultTime.length - 1 : index}`);
+        return index === -1 ? timer.defaultTime.length - 1 : index;
     }
 
     /**
@@ -65,6 +129,13 @@ const App = () => {
      */
     const findNewId = () => {
         return parseInt(Math.random() * 1000000) + 1;
+    }
+
+    /**
+     * Helper function to close sign in window
+     */
+    const closeSignInWindow = () => {
+        setUserStore({ ...userStore, loading: false });
     }
 
     /**
@@ -83,8 +154,11 @@ const App = () => {
          */
         onChange: function onChange(timer) {
             if (timer.id === null)
-                setTimerStore(timer);
-            else 
+                setTimerStore({
+                    ...timer,
+                    defaultTime: getTime(timer.defaultTime),
+                });
+            else
                 editTimer(timer);
         },
 
@@ -94,9 +168,9 @@ const App = () => {
          */
         onStart: function onStart(timer) {
             if (timer.id === null)
-                addTimer({...timer, isPaused: false, isStarted: true, isActive: true}, false);
-            else 
-                editTimer({...timer, isPaused: false, isStarted: true, isActive: true});
+                addTimer({ ...timer, isPaused: false, isStarted: true, isActive: true }, false);
+            else
+                editTimer({ ...timer, isPaused: false, isStarted: true, isActive: true });
         },
 
         /**
@@ -104,7 +178,7 @@ const App = () => {
          * @param { object } timer 
          */
         onPause: function onPause(timer) {
-            editTimer({...timer, isPaused: true});
+            editTimer({ ...timer, isPaused: true });
         },
 
         /**
@@ -112,7 +186,7 @@ const App = () => {
          * @param { object } timer 
          */
         onResume: function onResume(timer) {
-            editTimer({...timer, isPaused: false});
+            editTimer({ ...timer, isPaused: false });
         },
 
         /**
@@ -120,7 +194,7 @@ const App = () => {
          * @param { object } timer 
          */
         onDone: function onDone(timer) {
-            editTimer({...timer, time: null, isStarted: false, isPaused: true, isActive: false});
+            editTimer({ ...timer, time: null, isStarted: false, isPaused: true, isActive: false });
         },
 
         /**
@@ -128,7 +202,7 @@ const App = () => {
          * @param { object } timer 
          */
         onReset: function onReset(timer) {
-            editTimer({...timer, time: null, isStarted: false, isPaused: true});
+            editTimer({ ...timer, time: null, isStarted: false, isPaused: true });
         },
 
         /**
@@ -137,9 +211,9 @@ const App = () => {
          */
         onNew: function onNew(timer) {
             if (timer.id === null)
-                addTimer({...timer, isPaused: true, isStarted: false, isActive: true}, true);
-            else 
-                addTimer({...timer, time: null, isPaused: true, isStarted: false, id: null, isSaved: [], isActive: true}, true);
+                addTimer({ ...timer, isPaused: true, isStarted: false, isActive: true }, true);
+            else
+                addTimer({ ...timer, time: null, isPaused: true, isStarted: false, id: null, isSaved: [], isActive: true }, true);
         },
 
         /**
@@ -147,9 +221,9 @@ const App = () => {
          * @param { object } timer 
          */
         onStop: function onStop(timer) {
-            editTimer({...timer, time: null, isPaused: true, isStarted: false, isActive: false});
+            editTimer({ ...timer, time: null, isPaused: true, isStarted: false, isActive: false });
         },
-        
+
         /**
          * Handles like button functionality
          * [FUTURE] Add a proper error message
@@ -157,21 +231,23 @@ const App = () => {
          */
         onLike: function onLike(timer) {
             if (userStore.isLoggedIn) {                                                                 // check if user is logged in to be able to save timers
-                if (timer.id === null) 
-                    addTimer({...timer, isSaved: [...timer.isSaved, userStore.id]}, false);
+                if (timer.id === null)
+                    addTimer({ ...timer, isSaved: [...timer.isSaved, userStore.id] }, false);
 
                 else if (timer.isSaved.length > 0 && timer.isSaved.every(userId => userId === userStore.id)) // check if user has already saved this timer before
-                    editTimer({...timer, isSaved: [
-                        ...timer.isSaved.slice(0, timer.isSaved.findIndex(userId => userId === userStore.id)),
-                        ...timer.isSaved.slice(timer.isSaved.findIndex(userId => userId === userStore.id) + 1),
-                    ]});
+                    editTimer({
+                        ...timer, isSaved: [
+                            ...timer.isSaved.slice(0, timer.isSaved.findIndex(userId => userId === userStore.id)),
+                            ...timer.isSaved.slice(timer.isSaved.findIndex(userId => userId === userStore.id) + 1),
+                        ]
+                    });
 
-                else 
-                    editTimer({...timer, isSaved: [...timer.isSaved, userStore.id]});
+                else
+                    editTimer({ ...timer, isSaved: [...timer.isSaved, userStore.id] });
 
                 return true;
             } else {
-                setUserStore({...userStore, loading: true});
+                setUserStore({ ...userStore, loading: true });
                 console.log('You need to sign in to save timers');
                 return false;
             }
@@ -179,24 +255,37 @@ const App = () => {
     };
 
 
-    const [users, setUsers] = useState([{username: 'admin', password: 'admin', id: 0}]);
+    const [users, setUsers] = useState([{ username: 'admin', password: 'admin', id: 0 }]);
     const [userStore, setUserStore] = useState(initialUserStore);
     const [timers, setTimers] = useState([]);
     const [timerStore, setTimerStore] = useState(initialTimerStore);
 
     /**
      * Updates userStore object with new parameters from new userStore instance
+     * Handles login and logout actions
      * @param { object } newUserStore 
      */
     const updateUserStore = (newUserStore) => {
-        if (!userStore.isLoggedIn && newUserStore.isLoggedIn)
-            timers.forEach(timer => {
-                if (timer.users.length === 0)
-                    timer.users[0] = newUserStore.id;
-                editTimer(timer);
-            });
-        if (userStore.isLoggedIn && !newUserStore.isLoggedIn)
+        if (!userStore.isLoggedIn && newUserStore.isLoggedIn)   // user is trying to log in
+            setTimers(timers.map(timer => timer.users.length === 0 ? {
+                ...timer,
+                users: [newUserStore.id],
+                defaultTime: timer.isPaused ? timer.defaultTime : getTime(timer.defaultTime),
+            } : timer));
+        if (userStore.isLoggedIn && !newUserStore.isLoggedIn) { // user is trying to log out
+            setTimers(timers.map(timer => timer.users.length === 0 || (timer.users.length > 0 && !timer.users.every(userId => userId !== userStore.id))
+                ? {
+                    ...timer,
+                    time: null,
+                    isPaused: true,
+                    isStarted: false,
+                    isActive: false,
+                    users: timer.users.filter(userId => userId !== userStore.id),
+                }
+                : timer
+            ).filter(timer => timer.isActive || (timer.isSaved.length !== 0 && !timer.isSaved.every(userId => userId !== userStore.id))));
             setTimerStore(initialTimerStore);
+        }
         setUserStore(newUserStore);
     }
 
@@ -206,11 +295,11 @@ const App = () => {
      */
     const addUser = (user) => {
         let userId = findNewId();
-        while (users.length > 0 && users.every(userX => userX.id === userId)) { 
+        while (users.length > 0 && users.every(userX => userX.id === userId)) {
             userId = findNewId();
         }
         user.id = userId;
-        
+
         setUsers([...users, user]);
         return userId;
     }
@@ -221,7 +310,7 @@ const App = () => {
      */
     const addTimer = (timer, copy) => {
         let timerId = findNewId();
-        while (timers.length > 0 && timers.every(timerX => timerX.id === timerId)) { 
+        while (timers.length > 0 && timers.every(timerX => timerX.id === timerId)) {
             timerId = findNewId();
         }
 
@@ -241,7 +330,7 @@ const App = () => {
             },
         ])
 
-        if (!copy) 
+        if (!copy)
             setTimerStore({
                 ...timer,
                 id: timerId,
@@ -249,7 +338,7 @@ const App = () => {
                 defaultTime: defaultTime,
             });
     }
-    
+
     /**
      * Updates single object in timers array, and updates defaultTime in case it was changed
      * @param { object } timer 
@@ -257,119 +346,128 @@ const App = () => {
     const editTimer = (timer) => {
         if (!timer.isPaused)
             timer.defaultTime = getTime(timer.defaultTime);
-        
-        if (!timer.isActive) {
-            if (
-                !userStore.isLoggedIn || 
-                timer.isSaved.length === 0 || 
-                !timer.isSaved.every(userId => userId === userStore.id)
-            ) {
-                deleteTimer(timer);
-                if (timer.id === timerStore.id) 
-                    setTimerStore({
-                        ...timer,
-                        id: null,
-                        isSaved: [],
-                    });
-            }
-        } else {
-            setTimers([
-                ...timers.slice(0, timers.findIndex(timerX => timerX.id === timer.id)),
-                timer,
-                ...timers.slice(timers.findIndex(timerX => timerX.id === timer.id) + 1),
-            ]);
-    
-            if (timer.id === timerStore.id) {
-                setTimerStore(timer);
-            }
+
+        setTimers([
+            ...timers.slice(0, timers.findIndex(timerX => timerX.id === timer.id)),
+            timer,
+            ...timers.slice(timers.findIndex(timerX => timerX.id === timer.id) + 1),
+        ]);
+
+        if (timer.id === timerStore.id) {
+            setTimerStore(timer);
         }
     }
-    
+
     /**
      * Deletes timer object from timers array
      * @param { object } timer 
      */
-    const deleteTimer = (timer) => setTimers([
+    const deleteTimer = (timer) => timers.length > 0 && !timers.every(timerX => timerX.id !== timer.id) ? setTimers([
         ...timers.slice(0, timers.findIndex(timerX => timerX.id === timer.id)),
         ...timers.slice(timers.findIndex(timerX => timerX.id === timer.id) + 1),
-    ]);
+    ]) : null;
 
 
     /**
      * Updates all the timers that are not paused, from the timers array every second
      */
-    useInterval (
+    useInterval(
         () => {
             timers.forEach(timer => {
-                if (!timer.isPaused) {                                              // checks if we even need to touch this timer at all
+                if (!timer.isActive) {
+                    if (
+                        !userStore.isLoggedIn ||
+                        timer.isSaved.length === 0 ||
+                        !timer.isSaved.every(userId => userId === userStore.id)
+                    ) {
+                        deleteTimer(timer);
+                        if (timer.id === timerStore.id)
+                            setTimerStore({
+                                ...timer,
+                                id: null,
+                                isSaved: [],
+                            });
+                    }
+                } else if (!timer.isPaused) {                                       // checks if we even need to touch this timer at all
                     if (timer.time === null) {                                      // checks if timer was started before
                         let seconds = parseInt(timer.defaultTime.substr(4, 2));     // adding seconds
                         seconds += parseInt(timer.defaultTime.substr(2, 2)) * 60    // adding minutes
                         seconds += parseInt(timer.defaultTime.substr(0, 2)) * 3600  // adding hours
-                        
+
                         timer.time = seconds;                                       // assigns all the seconds to timer
                     }
                     if (timer.time > 0) {
                         timer.time--;                                               // decrements 1 seconds from time
                         editTimer(timer);                                           // updates timer from timers array
                     } else {
-                        editTimer({...timer, isPaused: true})
+                        editTimer({ ...timer, isPaused: true })
                     }
                 }
             });
         },
-        !timerStore.isPaused || (timers.length > 0 && timers.every(timerX => !timerX.isPaused)) ? 1000 : null,
+        (!timerStore.isPaused || (timers.length > 0 && !timers.every(timerX => timerX.isPaused))) ? 1000 : null,
     );
 
-    
+
+
     return (
         <div className='container'>
-            <Header updateUserStore={ updateUserStore } userStore={ userStore } />
-            { /* login screen */ }
-            { userStore.loading
+            <Header updateUserStore={updateUserStore} userStore={userStore} />
+
+            { /* login screen */}
+            {userStore.loading
                 ? userStore.isSigningUp
-                    ? <SignUpForm users={ users} addUser={ addUser } updateUserStore={ updateUserStore } userStore={ userStore } />
-                    : <LoginForm users={ users} updateUserStore={ updateUserStore } userStore={ userStore } />
+                    ? <SignUpForm users={users} addUser={addUser} updateUserStore={updateUserStore} closeSignInWindow={closeSignInWindow} userStore={userStore} />
+                    : <LoginForm users={users} updateUserStore={updateUserStore} closeSignInWindow={closeSignInWindow} userStore={userStore} />
                 : <></>
             }
-            { /* favorite timers */ }
-            { timers.length > 0 && !timers.every(timer => !(timer.isSaved.length > 0 && userStore.isLoggedIn && !timer.isSaved.every(userId => userId !== userStore.id)))
-                ? <ListTimers 
-                    name='favorite'
-                    onAction={ onAction }
-                    handleInputChange={ handleTimeInputChange }
-                    getIsLiked={ getIsLiked } 
-                    getTimeFromNum={ getTimeFromNum }
-                    timers={ timers.filter(timer => userStore.isLoggedIn && timer.isSaved.length > 0 && timer.isSaved.every(userId => userId === userStore.id)) }
-                />
-                : <></>
-            }
-            { /* active timers */ }
-            { timers.length > 0 && !timers.every(timer => !(timer.isActive && (userStore.isLoggedIn ? (timer.users.length > 0 && timer.users.every(userId => userId === userStore.id)) : timer.users.length === 0)))
-                ? <ListTimers 
-                    name='active'
-                    onAction={ onAction }
-                    handleInputChange={ handleTimeInputChange }
-                    getIsLiked={ getIsLiked } 
-                    getTimeFromNum={ getTimeFromNum }
-                    timers={ timers.filter(timer => timer.isActive && (userStore.isLoggedIn ? (timer.users.length > 0 && timer.users.every(userId => userId === userStore.id)) : timer.users.length === 0)) }
-                />
-                : <></>
-            }
-            { /* timers creator */ }
-            <CreateTimer timer={ timerStore } onAction={ onAction } handleInputChange={ handleTimeInputChange } getIsLiked={ getIsLiked } getTimeFromNum={ getTimeFromNum } />
-            { /* show timers */ }
-            { timers.length > 0 && !timers.every(timer => !(timer.isActive && (userStore.isLoggedIn ? (timer.users.length > 0 && timer.users.every(userId => userId === userStore.id)) : timer.users.length === 0)))
-                ? <ListTimers 
+
+            <br/><br/><br/>
+
+            <div className='container-timers'>
+                { /* favorite timers */}
+                {timers.length > 0 && !timers.every(timer => !(timer.isSaved.length > 0 && userStore.isLoggedIn && !timer.isSaved.every(userId => userId !== userStore.id)))
+                    ? <ListTimers
+                        name='favorite'
+                        onAction={onAction}
+                        handleInputChange={handleTimeInputChange}
+                        getIsLiked={getIsLiked}
+                        getTimeFromNum={getTimeFromNum}
+                        timers={timers.filter(timer => userStore.isLoggedIn && timer.isSaved.length > 0 && timer.isSaved.every(userId => userId === userStore.id))}
+                    />
+                    : <></>
+                }
+                { /* active timers */}
+                {timers.length > 0 && !timers.every(timer => !(timer.isActive && (userStore.isLoggedIn ? (timer.users.length > 0 && timer.users.every(userId => userId === userStore.id)) : timer.users.length === 0)))
+                    ? <ListTimers
+                        name='active'
+                        onAction={onAction}
+                        handleInputChange={handleTimeInputChange}
+                        getIsLiked={getIsLiked}
+                        getTimeFromNum={getTimeFromNum}
+                        timers={timers.filter(timer => timer.isActive && (userStore.isLoggedIn ? (timer.users.length > 0 && timer.users.every(userId => userId === userStore.id)) : timer.users.length === 0))}
+                    />
+                    : <></>
+                }
+                { /* timers creator */}
+                <CreateTimer timer={timerStore} onAction={onAction} handleInputChange={handleTimeInputChange} getIsLiked={getIsLiked} getTimeFromNum={getTimeFromNum} />
+            </div>
+
+            <br/>
+
+            { /* show timers */}
+            {timers.length > 0 && !timers.every(timer => !(timer.isActive && (userStore.isLoggedIn ? (timer.users.length > 0 && timer.users.every(userId => userId === userStore.id)) : timer.users.length === 0)))
+                ? <ListTimers
                     name='show'
-                    onAction={ onAction }
-                    handleInputChange={ handleTimeInputChange }
-                    getIsLiked={ getIsLiked } 
-                    getTimeFromNum={ getTimeFromNum }
-                    timers={ timers.filter(timer => timer.isActive && (userStore.isLoggedIn ? (timer.users.length > 0 && timer.users.every(userId => userId === userStore.id)) : timer.users.length === 0)) }
+                    onAction={onAction}
+                    handleInputChange={handleTimeInputChange}
+                    getIsLiked={getIsLiked}
+                    getTimeFromNum={getTimeFromNum}
+                    timers={timers.filter(timer => timer.isActive && (userStore.isLoggedIn ? (timer.users.length > 0 && timer.users.every(userId => userId === userStore.id)) : timer.users.length === 0))}
                 />
                 : <></>
             }
+            <div id='overlay' className={`overlay${userStore.loading ? ' active' : ''}`} onClick={() => setUserStore(false)} />
         </div>
     );
 }

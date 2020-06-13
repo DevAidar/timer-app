@@ -1,10 +1,10 @@
 import React        from 'react';
 import PropTypes    from 'prop-types';
 
-const SubmitButton = ({ text, disabled }) => (
-    <div className='submitButton'>
+const SubmitButton = ({ className, text, disabled }) => (
+    <div className='submit-button'>
         <button
-            className='btn'
+            className={ className }
             disabled={ disabled }
         >
             { text }
@@ -13,6 +13,7 @@ const SubmitButton = ({ text, disabled }) => (
 );
 
 SubmitButton.propTypes = {
+    className: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired, 
     disabled: PropTypes.bool.isRequired,
 }

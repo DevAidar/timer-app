@@ -1,0 +1,108 @@
+
+.login-screen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: min(90%, 500px);
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background-color: white;
+    border-radius: .25rem;
+    text-align: center;
+    padding: 1rem;
+}
+
+.login-logo {
+    width: 80px;
+    height: auto;
+}
+
+.login-label {
+    font-family: 'Avenir Next Bold';
+    font-size: 1.5rem;
+    text-align: center;
+    color: #16191C;
+    margin-top: 0;
+}
+
+input.login-input {
+    width: min(90%, 400px);
+    display: block;
+    background: var(--main-bg-color);
+    border-radius: 4px;
+    border: 1px solid var(--main-bg-color);
+    box-shadow: 0 0 0 0 transparent;
+    font-size: 14px;
+    font-weight: 500;
+    height: 44px;
+    padding: 0 .25rem 0 .75rem;
+    margin: 1em auto 1em auto;
+    outline: none;
+    transition: 200ms ease-in-out;
+}
+
+input.login-input:hover {
+    border-color: var(--main-highlight-color);
+}
+
+input.login-input:focus {
+    border-color: transparent;
+    border-bottom-color: var(--main-highlight-color);
+    box-shadow: 0 1px 0 0 var(--main-highlight-color);
+}
+
+button.login-button {
+    box-shadow: none;
+    padding: 11px 24px 10px;
+    font-size: 14px;
+    line-height: 17px;
+    width: auto;
+    background-color: var(--main-button-color);
+    color: white;
+    font-weight: 500;
+    border: 1px solid transparent;
+    text-align: center;
+    margin: 0 auto 1rem;
+    border-radius: 45px;
+    outline: none;
+    cursor: pointer;
+    transition: 200ms ease-in-out;
+}
+
+button.login-button:hover {
+    background-color: var(--main-button-hover-color);
+}
+
+span.sign-up-label {
+    font-family: 'Avenir Next Medium';
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 0 8px 0 auto;
+}
+
+a.sign-up-button {
+    font-family: 'Avenir Next Medium';
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    margin: 0 auto 0 0;
+    font-weight: 600;
+    color: #16191C;
+    cursor: pointer;
+    outline: none;
+    box-sizing: border-box;
+    border-bottom: 2px solid transparent;
+    transition: 200ms ease-in-out;
+}
+
+a.sign-up-button:hover {
+    border-bottom: 2px solid var(--main-highlight-color);
+}
+
+.close-button {
+    position: absolute;
+    top: .25rem;
+    right: .75rem;
+    font-size: 2rem;
+    cursor: pointer;
+}

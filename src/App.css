@@ -1,14 +1,39 @@
-body,
-html,
-#root,
-.app,
+@font-face {
+    font-family: 'Avenir Next Medium';
+    src: url('./fonts/Avenir Next LT Pro/AvenirNextLTPro-Regular.otf');
+}
+
+@font-face {
+    font-family: 'Avenir Next Bold';
+    src: url('./fonts/Avenir Next LT Pro/AvenirNextLTPro-Bold.otf');
+}
+
+:root {
+    --main-overlay-color: rgba(0, 0, 0, 0.7);
+    --main-header-color: #444;
+    --main-bg-color: #f7f7f7;
+    --main-highlight-color: #d1d1d1;
+    --main-button-color: #333333;
+    --main-button-hover-color: #555555;
+    --time-color: #222;
+    --time-unsure-color: #aaaaaa;
+    --action-btn-color: #222;
+    --action-btn-hover-color: #555555;
+    --action-start-btn-color: #ddd;
+    --action-start-btn-hover-color: #cfcfcf;
+}
+
+body, html, #root, .app,
 .container {
+    padding: 0;
+    margin: 0;
     background-color: #ffffff;
+    font-family: 'Avenir Next Medium' !important;
 }
 
 .header {
     width: 100%;
-    background-color: darkgray;
+    background-color: var(--main-header-color);
 }
 
 li {
@@ -16,16 +41,64 @@ li {
 }
 
 .header-components {
+    height: 50px;
+    width: min(1000px, 80%);
     display: flex;
     align-items: center;
-    height: 50px;
-    width: 1000px;
     margin: 0 auto;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 0 1em;
 }
 
 #logo {
+    margin-top: 5px;
     height: 40px;
     width: auto;
-    color: #000000;
+}
+
+li > .sign-in-button {
+    font-family: 'Avenir Next Bold';
+    text-decoration: none;
+    text-align: end;
+    color: var(--main-bg-color);
+    transition: 100ms ease-in-out;
+    outline: none;
+    cursor: pointer;
+}
+
+li > .sign-in-button:hover {
+    color: var(--main-highlight-color);
+}
+
+.container-timers {
+    width: min(1000px, 80%);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.hidden-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.is-hidden {
+    display: none;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-overlay-color);
+    opacity: 0;
+    transition: 100ms ease-in-out;
+    pointer-events: none;
+}
+
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
 }

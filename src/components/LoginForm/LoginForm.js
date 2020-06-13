@@ -4,7 +4,11 @@ import PropTypes             from 'prop-types';
 import InputField            from '../InputField/InputField';
 import SubmitButton          from '../SubmitButton/SubmitButton';
 
-const LoginForm = ({ users, updateUserStore, userStore }) => {
+import logo                  from '../../images/LMP_LOGO_DARK.png';
+
+import './LoginForm.css';
+
+const LoginForm = ({ users, updateUserStore, closeSignInWindow, userStore }) => {
     const initialLoginState = {
         username: '',
         password: '',
@@ -60,15 +64,16 @@ const LoginForm = ({ users, updateUserStore, userStore }) => {
 
     return ( 
         <div id='login-screen' className="login-screen">
+            <div className='close-button' onClick={() => closeSignInWindow()}>&times;</div>
+            <img id='login-logo' className='login-logo' src={logo} alt='Logo' />
             <form className = 'login-form'
                 onSubmit={event => {
                     event.preventDefault();
                     doLogin();
                 }}
             >
-
-                <label id='sign-in-label' className='sign-in-label'>Sign in</label>
                 <InputField 
+                    className='login-username-input login-input'
                     type = 'text'
                     name = 'username'
                     placeholder = 'Username'
@@ -77,6 +82,7 @@ const LoginForm = ({ users, updateUserStore, userStore }) => {
                 /> 
 
                 <InputField 
+                    className='login-password-input login-input'
                     type = 'password'
                     name = 'password'
                     placeholder = 'Password'
@@ -84,11 +90,13 @@ const LoginForm = ({ users, updateUserStore, userStore }) => {
                     onChanges = { handleInputChange }
                 /> 
                 <SubmitButton 
-                    text = 'Login'
+                    className='login-button btn'
+                    text = 'Log In'
                     disabled = { loginState.buttonDisabled }
                 /> 
+                <span id='sign-up-label' className='sign-up-label'>Don't have an account?</span>
+                <a className='sign-up-label sign-up-button' onClick={() => doSignUp()}>Sign up</a>
             </form>
-            <label id='sign-up-label' className='sign-up-label'>Don't have an account? <a className='sign-up-button' onClick={() => doSignUp()}>Sign up</a></label>
         </div>
     );
 }
@@ -96,6 +104,7 @@ const LoginForm = ({ users, updateUserStore, userStore }) => {
 LoginForm.propTypes = {
     users: PropTypes.array.isRequired,
     updateUserStore: PropTypes.func.isRequired,
+    closeSignInWindow: PropTypes.func.isRequired,
     userStore: PropTypes.object.isRequired,
 };
 

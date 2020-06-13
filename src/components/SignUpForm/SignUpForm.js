@@ -4,7 +4,11 @@ import PropTypes             from 'prop-types';
 import InputField            from '../InputField/InputField';
 import SubmitButton          from '../SubmitButton/SubmitButton';
 
-const SignUpForm = ({ users, addUser, updateUserStore, userStore }) => {
+import logo                  from '../../images/LMP_LOGO_DARK.png';
+
+import './SignUpForm.css';
+
+const SignUpForm = ({ users, addUser, updateUserStore, closeSignInWindow, userStore }) => {
     const initialSignUpState = {
         username: '',
         password: '',
@@ -71,15 +75,16 @@ const SignUpForm = ({ users, addUser, updateUserStore, userStore }) => {
 
     return ( 
         <div id='sign-up-screen' className="sign-up-screen">
+            <div className='close-button' onClick={() => closeSignInWindow()}>&times;</div>
+            <img id='sign-up-logo' className='sign-up-logo' src={logo} alt='Logo' />
             <form className = 'sign-up-form'
                 onSubmit={event => {
                     event.preventDefault()
                     doSignUp();
                 }}
             >
-
-                <label id='sign-up-label' className='sign-up-label'>Sign Up</label>
                 <InputField 
+                    className='sign-up-username-input sign-up-input'
                     type = 'text'
                     name = 'username'
                     placeholder = 'Username'
@@ -88,6 +93,7 @@ const SignUpForm = ({ users, addUser, updateUserStore, userStore }) => {
                 /> 
 
                 <InputField 
+                    className='sign-up-password-input sign-up-input'
                     type = 'password'
                     name = 'password'
                     placeholder = 'Password'
@@ -96,6 +102,7 @@ const SignUpForm = ({ users, addUser, updateUserStore, userStore }) => {
                 /> 
 
                 <InputField 
+                    className='sign-up-password-repeat-input sign-up-input'
                     type = 'password'
                     name = 'password2'
                     placeholder = 'Repeat Password'
@@ -103,12 +110,14 @@ const SignUpForm = ({ users, addUser, updateUserStore, userStore }) => {
                     onChanges = { handleInputChange }
                 /> 
 
-                <SubmitButton 
+                <SubmitButton
+                    className='sign-up-button btn' 
                     text = 'Sign Up'
                     disabled = { signUpstate.buttonDisabled }
                 /> 
+                <span id='log-in-label' className='log-in-label'>Have an account?</span>
+                <a className='log-in-label log-in-button' onClick={() => doLogin()}>Log in</a>
             </form>
-            <label id='log-in-label' className='log-in-label'>Have an account? <a className='log-in-button' onClick={() => doLogin()}>Log in</a></label>
         </div>
     );
 }
@@ -116,6 +125,7 @@ const SignUpForm = ({ users, addUser, updateUserStore, userStore }) => {
 SignUpForm.propTypes = {
     users: PropTypes.array.isRequired,
     updateUserStore: PropTypes.func.isRequired,
+    closeSignInWindow: PropTypes.func.isRequired,
     userStore: PropTypes.object.isRequired,
 };
 

@@ -1,0 +1,66 @@
+.time-input {
+    display: flex;
+    flex-direction: row;
+    font-weight: 500;
+    align-items: baseline;
+}
+
+.edit-show-list-timer {
+    align-items: center;
+    font-size: 10em;
+}
+
+label.edit-create-timer {
+    display: block;
+    font-weight: 500;
+    font-size: 5em;
+    text-align: center;
+    
+    font-family: 'Noto Sans', sans-serif;
+}
+
+span.timer-digit {
+    display: inline-block;
+    white-space: pre-wrap;
+    font-size: 2em;
+    color: var(--time-color);
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+span.timer-cursor {
+    border-right: 1px solid black;
+}
+
+span.timer-separator {
+    display: inline-block;
+    font-size: 1em;
+    padding-right: 1em;
+    color: var(--time-color);
+    cursor: pointer;
+}
+
+span.timer-separator.last {
+    padding: 0;
+}
+
+span.timer-separator.timer-column {
+    display: inline-block;
+    font-size: 2em;
+    color: var(--time-color);
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.timer-column {
+    width: .5em;
+    text-decoration: none;
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: .25em;
+}
+
+span.time-unsure {
+    color: var(--time-unsure-color);
+}

@@ -1,0 +1,29 @@
+.action-btn {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    display: inline-block;
+    border-radius: 50%;
+    border-style: none;
+    background-color: var(--action-btn-color);
+    color: var(--main-bg-color);
+    outline: none;
+    transition: 100ms ease-in-out;
+}
+
+.text {
+    font-size: 1em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.action-btn:hover {
+    background-color: var(--action-btn-hover-color);
+}
+
+button.action-btn:disabled:hover {
+    background-color: var(--action-btn-color);
+    cursor: not-allowed;
+}

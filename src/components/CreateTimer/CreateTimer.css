@@ -1,0 +1,79 @@
+.create-timer {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+.create-timer-action-buttons {
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 6em 3em 6em;
+    grid-template-rows: 3em 3em;
+    align-content: stretch;
+    justify-content: stretch;
+    grid-gap: 0 1em;
+}
+
+.create-timer-action-buttons:hover button.new-button,
+.create-timer-action-buttons:hover img.like-button {
+    display: block;
+    transform: scale(1);
+    opacity: 1;
+}
+
+button.start-button,
+button.resume-button,
+button.pause-button,
+button.done-button,
+button.reset-button {
+    grid-row: span 2;
+    font-size: 1em;
+}
+
+button.start-button,
+button.resume-button,
+button.pause-button {
+    background-color: var(--action-start-btn-color);
+    color: var(--time-color);
+    transition: 100ms ease-in-out;
+}
+
+button.start-button:hover,
+button.resume-button:hover,
+button.pause-button:hover {
+    background-color: var(--action-start-btn-hover-color);
+}
+
+button.start-button:hover:disabled {
+    background-color: var(--action-start-btn-color);
+}
+
+button.new-button {
+    font-size: .75em;
+    color: var(--time-color);
+    background-color: var(--time-unsure-color);
+    box-shadow: 0 0 1px 0 var(--time-color);
+    text-align: center;
+    transform: scale(.8);
+    opacity: 0;
+    transition: 200ms ease-in-out;
+}
+
+button.new-button:hover {
+    background-color: var(--main-highlight-color);
+}
+
+button.new-button:hover:disabled {
+    background-color: var(--time-unsure-color);
+}
+
+img.like-button {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    transform: scale(.8);
+    opacity: 0;
+    transition: 200ms ease-in-out;
+}

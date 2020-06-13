@@ -1,0 +1,161 @@
+.list-timer {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+.list-timers {
+    margin-bottom: 3rem;
+}
+
+.timers-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 60%;
+    cursor: pointer;
+    border-bottom: solid 2px var(--time-color);
+}
+
+.timers-label {
+    font-family: 'Avenir Next Bold';
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.active-timers-image {
+    width: 1.5em;
+    height: 1.5em;
+    cursor: pointer;
+    transform: rotate(0);
+    transition: 100ms ease-in-out;;
+}
+
+.active-timers-image.expand {
+    transform: rotate(-180deg);
+}
+
+.active-timers {
+    width: 60%;
+}
+
+.list-timer-show {
+    width: 100%;
+}
+
+.edit-show-list-timer {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-timer {
+    padding: 1em 0;
+    display: grid;
+    grid-template-columns: 1.5em 5fr 1fr 5fr;
+    grid-template-rows: 1fr 1.5em;
+    align-content: center;
+    justify-content: center;
+    font-size: 1.5em;
+    border-bottom: solid 1px var(--time-color);
+}
+
+.list-timers-action-buttons {
+    grid-row: span 2;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 4em 2em 4em;
+    grid-template-rows: 1.5em 1.5em;
+    grid-gap: 1em .5em;
+}
+
+button.list-start-button,
+button.list-resume-button,
+button.list-pause-button,
+button.list-done-button,
+button.list-stop-button,
+button.list-clear-button {
+    grid-row: span 2;
+    font-size: .75em;
+}
+
+.list-timer:hover button.list-new-button,
+.list-timer:hover button.list-stop-button,
+.list-timer:hover button.list-clear-button,
+.list-timer:hover button.list-reset-button {
+    display: block;
+    transform: scale(1);
+    opacity: 1;
+}
+
+.set-timer {
+    grid-column: span 3;
+}
+
+button.list-start-button,
+button.list-resume-button,
+button.list-pause-button {
+    background-color: var(--action-start-btn-color);
+    color: var(--time-color);
+    transition: 100ms ease-in-out;
+}
+
+button.list-start-button:hover,
+button.list-resume-button:hover,
+button.list-pause-button:hover {
+    background-color: var(--action-start-btn-hover-color);
+}
+
+button.list-start-button:hover:disabled {
+    background-color: var(--action-start-btn-color);
+}
+
+button.list-new-button,
+button.list-reset-button {
+    color: var(--time-color);
+    background-color: var(--time-unsure-color);
+    box-shadow: 0 0 1px 0 var(--time-color);
+    text-align: center;
+    transform: scale(.8);
+    opacity: 0;
+    transition: 200ms ease-in-out;
+}
+
+button.list-stop-button,
+button.list-clear-button {
+    box-shadow: 0 0 1px 0 var(--time-color);
+    text-align: center;
+    transform: scale(.8);
+    opacity: 0;
+    transition: 200ms ease-in-out;
+}
+
+button.list-new-button,
+button.list-reset-button {
+    font-size: .5em;
+}
+
+button.list-new-button:hover,
+button.list-reset-button:hover {
+    background-color: var(--main-highlight-color);
+}
+
+button.list-new-button:hover:disabled,
+button.list-reset-button:hover:disabled {
+    background-color: var(--time-unsure-color);
+}
+
+img.like-button-list {
+    cursor: pointer;
+    height: 100%;
+    width: auto;
+    margin: auto auto;
+    opacity: 1;
+    transform: scale(1);
+    margin: auto;
+    align-self: center;
+    justify-self: center;
+}

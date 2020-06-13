@@ -1,6 +1,6 @@
 import React    from 'react';
 
-import logo     from '../Images/LMP_LOGO.png';
+import logo     from '../images/LMP_LOGO.png';
 
 const Header = ({ updateUserStore, userStore }) => {
     /**
@@ -19,8 +19,8 @@ const Header = ({ updateUserStore, userStore }) => {
             <ul className='header-components'>
                 <li><img id='logo' className='logo' src={logo} alt='Logo' /></li>
                 { userStore.isLoggedIn
-                    ? <li><a id='login-button' className="login-button" onClick={() => onLoginButton(false)}>Log Out</a></li> 
-                    : <li><a id='login-button' className="login-button" onClick={() => onLoginButton(true)}>Login</a></li>
+                    ? <li><a id='sign-in-button' className="sign-in-button" onClick={() => onLoginButton(false)}>Log Out</a></li> 
+                    : <li><a id='sign-in-button' className="sign-in-button" onClick={() => onLoginButton(true)}>Sign In</a></li>
                 }
             </ul>
         </div>

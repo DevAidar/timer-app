@@ -1,8 +1,8 @@
 import React            from 'react';
 import PropTypes        from 'prop-types';
 
-import likedButton      from '../../Images/icon-liked.png'
-import notLikedButton   from '../../Images/icon-not-liked.png'
+import likedButton      from '../../images/icon-liked.png'
+import notLikedButton   from '../../images/icon-not-liked.png'
 
 import './LikeButton.css';
 
@@ -10,7 +10,7 @@ const LikeButton = ({ id, timer, onChange, isLiked }) => (
     <>
         <input
             id={`like-${id}-checkbox`} 
-            className={`like-checkbox${isLiked ? ' is-active' : ''}`}
+            className={`like-checkbox${isLiked ? ' is-active' : ''} hidden-input`}
             checked={ isLiked }
             onChange={() => onChange(timer)}
             type='checkbox'
@@ -22,7 +22,7 @@ const LikeButton = ({ id, timer, onChange, isLiked }) => (
         >
             <img 
                 id={`like-${id}-button`} 
-                className={`like-button${isLiked ? ' is-active' : ''}`}
+                className={`like-button${id === 0 ? '' : '-list'}${isLiked ? ' is-active' : ''}`}
                 src={isLiked ? likedButton : notLikedButton}
                 alt={isLiked ? 'liked' : 'not liked'}
             />
