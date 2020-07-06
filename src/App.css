@@ -198,6 +198,9 @@ li > .sign-in-button:hover {
 }
 
 @media (max-width: 425px) {
+  .container-timers {
+    font-size: .4em;
+  }
 
   .create-timer-action-buttons {
     font-size: 3em;
@@ -249,15 +252,31 @@ li > .sign-in-button:hover {
     margin: auto 0 ;
   }
 
-  .active-timers-show {
+  .list-timer-show {
     margin-top: 5rem;
-    font-size: .21em;
+    font-size: .23em;
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 374px) {
   .container-timers {
     font-size: .34em;
   }
+
+  .list-timer-show {
+    margin-top: 5rem;
+    font-size: .2em;
+  }
 }
+
+/* @media (max-width: 375px) {
+  .container-timers {
+    font-size: .34em;
+  }
+
+  .list-timers-show {
+    margin-top: 5rem;
+    font-size: .1em !important;
+  }
+} */
 
