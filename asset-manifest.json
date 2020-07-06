@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/timer-app/static/css/main.5e775bf2.chunk.css",
+    "main.js": "/timer-app/static/js/main.6ad09cda.chunk.js",
+    "main.js.map": "/timer-app/static/js/main.6ad09cda.chunk.js.map",
+    "runtime-main.js": "/timer-app/static/js/runtime-main.99cc2e4f.js",
+    "runtime-main.js.map": "/timer-app/static/js/runtime-main.99cc2e4f.js.map",
+    "static/js/2.10e57911.chunk.js": "/timer-app/static/js/2.10e57911.chunk.js",
+    "static/js/2.10e57911.chunk.js.map": "/timer-app/static/js/2.10e57911.chunk.js.map",
+    "index.html": "/timer-app/index.html",
+    "precache-manifest.bc1082d2f21f037ab05c6d8325d0226f.js": "/timer-app/precache-manifest.bc1082d2f21f037ab05c6d8325d0226f.js",
+    "service-worker.js": "/timer-app/service-worker.js",
+    "static/css/main.5e775bf2.chunk.css.map": "/timer-app/static/css/main.5e775bf2.chunk.css.map",
+    "static/js/2.10e57911.chunk.js.LICENSE.txt": "/timer-app/static/js/2.10e57911.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/timer-app/static/media/AvenirNextLTPro-Regular.b5ed9330.otf",
+    "static/media/LMP_LOGO.png": "/timer-app/static/media/LMP_LOGO.779bbdbd.png",
+    "static/media/LMP_LOGO_DARK.png": "/timer-app/static/media/LMP_LOGO_DARK.d7ee4d40.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.99cc2e4f.js",
+    "static/js/2.10e57911.chunk.js",
+    "static/css/main.5e775bf2.chunk.css",
+    "static/js/main.6ad09cda.chunk.js"
+  ]
+}
