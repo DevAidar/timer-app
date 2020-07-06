@@ -25,8 +25,8 @@
 }
 
 .active-timers-image {
-    width: 1.5em;
-    height: 1.5em;
+    width: 1.5rem;
+    height: 1.5rem;
     cursor: pointer;
     transform: rotate(0);
     transition: 100ms ease-in-out;;
@@ -70,6 +70,7 @@
     grid-template-columns: 4em 1.9em 4em;
     grid-template-rows: 1.9em 1.9em;
     grid-gap: .2em .5em;
+    justify-content: center;    
 }
 
 .action-btn {

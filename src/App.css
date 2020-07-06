@@ -42,12 +42,12 @@ li {
 
 .header-components {
     height: 50px;
-    width: min(1000px, 80%);
+    width: min(1000px, 95%);
     display: flex;
     align-items: center;
     margin: 0 auto;
     justify-content: space-between;
-    padding: 0 1em;
+    padding: 0;
 }
 
 #logo {
@@ -71,7 +71,7 @@ li > .sign-in-button:hover {
 }
 
 .container-timers {
-    width: min(1000px, 80%);
+  width: min(1000px, 95%);
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -102,3 +102,162 @@ li > .sign-in-button:hover {
     opacity: 1;
     pointer-events: all;
 }
+
+
+/* Media Query */
+@media (max-width: 1440px) {
+  .list-timer-show {
+    font-size: .7em;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* .like-button,
+  .action-btn {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  } */
+
+  .create-timer-action-buttons {
+    font-size: 2em;
+  }
+
+  .like-button,
+  .action-btn {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+
+  .timers-div,
+  .active-timers {
+    width: 100%;
+  }
+
+  .list-timer {
+    width: 100%;
+    font-size: 2.4em;
+  }
+
+  .container-timers {
+    font-size: .9em;
+  }
+
+  .list-timer-show {
+    font-size: .6em;
+  }
+}
+
+@media (max-width: 850px) {
+  .container-timers {
+    font-size: .83em;
+  }
+
+  .list-timer-show {
+    font-size: .5em;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-timers {
+    font-size: .7em;
+  }
+
+  .list-timer-show {
+    font-size: .43em;
+  }
+}
+
+@media (max-width: 650px) {
+  .container-timers {
+    font-size: .6em;
+  }
+}
+
+@media (max-width: 575px) {
+  .container-timers {
+    font-size: .5em;
+  }
+
+  .create-timer-action-buttons {
+    font-size: 2.5em;
+  }
+
+  .list-timer-show {
+    font-size: .31em;
+  }
+}
+
+@media (max-width: 475px) {
+  .container-timers {
+    font-size: .45em;
+  }
+
+  .list-timer-show {
+    font-size: .28em;
+  }
+}
+
+@media (max-width: 425px) {
+
+  .create-timer-action-buttons {
+    font-size: 3em;
+  }
+
+  .list-timer {
+    grid-template-columns: 1.5em 1em;
+    grid-template-rows: none;
+    font-size: 4.2em;
+    place-items: center;
+  }
+
+  .set-timer {
+    grid-column: auto;
+  }
+
+  .list-timer > .like-label {
+    grid-area: like;
+  }
+
+  .list-timer > .set-timer {
+    grid-area: time;
+  }
+
+  .list-timer > .list-timers-action-buttons {
+    grid-area: buttons;
+    font-size: 1.0714em;
+  }
+
+  .timers-div,
+  .active-timers {
+    width: 100%;
+  }
+
+  .list-timer {
+    justify-self: flex-start;
+    width: 100%;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    gap: .5em;
+    grid-template-areas: 
+      "like time"
+      "buttons buttons";
+  }
+
+  .like-label > .like-button-list {
+    width: 1.5em !important;
+    height: 1.5em !important;
+    margin: auto 0 ;
+  }
+
+  .active-timers-show {
+    margin-top: 5rem;
+    font-size: .21em;
+  }
+}
+
+@media (max-width: 375px) {
+  .container-timers {
+    font-size: .34em;
+  }
+}
+
